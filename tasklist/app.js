@@ -4,14 +4,15 @@ const taskInput = document.querySelector('#task');
 const addBtn = document.querySelector('.btn');
 const filter = document.querySelector('#filter');
 const clearTask = document.querySelector('.clear-tasks');
-const tasks = document.querySelector('.collection');
+const tasksList = document.querySelector('.collection');
 // listen for events that happens on the page 
 const loadAllEvents = function () {
     // DOM Content Loaded
     document.addEventListener('DOMContentLoaded', showTasksInLS);
+
     form.addEventListener('submit', addTask);
 
-    tasks.addEventListener('click', deleteTask);
+    tasksList.addEventListener('click', deleteTask);
 
     clearTask.addEventListener('click', clearAllTask);
 
@@ -20,14 +21,15 @@ const loadAllEvents = function () {
 }();
 //DOM CONTENT LOADED
 function showTasksInLS() {
-    let alltasks;
+    let tasks;
     if (localStorage.getItem('tasks') === null) {
-        alltasks = []
+        tasks = [];
     } else {
-        alltasks = JSON.parse(localStorage.getItem('tasks'));
+        tasks = JSON.parse(localStorage.getItem('tasks'));
     }
     // Loop through and create DOM element
-    alltasks.forEach(task => {
+    tasks.forEach(task => {
+        // console.log(task);
         // create an HTML element and append add it to the page
         const li = document.createElement('li');
         li.className = `collection-item`;
@@ -38,7 +40,7 @@ function showTasksInLS() {
 
         li.appendChild(link);
 
-        tasks.appendChild(li);
+        tasksList.appendChild(li);
     });
 }
 // functions of what happens when an event happens
@@ -55,7 +57,7 @@ function addTask(e) {
         link.innerHTML = `<i class="fa fa-remove"></i>`;
         li.appendChild(link);
         // insert it into DOM
-        tasks.insertAdjacentElement('beforeend', li);
+        tasksList.insertAdjacentElement('beforeend', li);
         // They can be achieved by appending child
         // tasks.appendChild(li);
 
@@ -71,7 +73,7 @@ function addTask(e) {
 function storeinLocalStorage(task) {
     let tasks;
     if (localStorage.getItem('tasks') === null) {
-        tasks = []
+        tasks = [];
     } else {
         tasks = JSON.parse(localStorage.getItem('tasks'));
     }
@@ -85,13 +87,37 @@ function deleteTask(e) {
     if (e.target.parentElement.classList.contains('delete-item')) {
         e.target.parentElement.parentElement.remove();
 
+        // Remove from LS
         deleteTaskfromLS(e.target.parentElement.parentElement);
     }
     e.preventDefault();
 }
 
+function deleteTaskfromLS(taskItem) {
+    let tasks;
+    if (localStorage.getItem('tasks') === null) {
+        tasks = []
+    } else {
+        tasks = JSON.parse(localStorage.getItem('tasks'));
+    }
+    // Loop through and create DOM element
+    tasks.forEach((task, index) => {
+        if (taskItem.textContent === task) {
+            tasks.splice(index, 1);
+        }
+    });
+
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
 function clearAllTask() {
     tasks.innerHTML = '';
+
+    clearTaskfromLS();
+}
+
+function clearTaskfromLS() {
+    localStorage.clear();
 }
 
 function filterTask(e) {
