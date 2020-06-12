@@ -5,21 +5,23 @@ guess = winningNum = winner , display congrats message, color green, disable inp
 guess != winning num, reduce guessesLeft and give another try again. display guesses left
 */
 
+'use strict';
+
 const game = document.getElementById('game'),
     minNum = document.querySelector('.min-num'),
     maxNum = document.querySelector('.max-num'),
     guessInput = document.getElementById('guess-input'),
     guessBtn = document.getElementById('guess-btn'),
     message = document.querySelector('.message'),
-    winningNum = 8;
+    winningNum = 8; // generate random number;
 let min = 1,
-    max = 15;
+    max = 20;
 // set UI values
 minNum.textContent = min;
 maxNum.textContent = max;
 let guessLeft = 2;
 
-// event listener 2
+// event listener 2 using DOM traversal to pick up the target.
 game.addEventListener('mousedown', function (e) {
     if (e.target.classList.contains('play-again')) {
         window.location.reload();
@@ -53,7 +55,7 @@ guessBtn.addEventListener('click', function () {
 function gameWon(won, msg) {
     let color;
     won === true ? color = `green` : color = `red`;
-    message.style.color = color;
+    // message.style.color = color;
     guessInput.style.borderColor = color;
     guessInput.disabled = true;
     guessBtn.value = 'Play Again';
@@ -64,4 +66,5 @@ function gameWon(won, msg) {
 function setMessage(msg, color) {
     message.innerText = msg;
     message.style.color = color;
+    guessInput.style.borderColor = color;
 }
