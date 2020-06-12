@@ -1,69 +1,51 @@
 /*
-1. Select DOM elements
-2. Check input to see if it matches randonNum;
-3. if number is wrong, display a message to user , tell them number of guesses left;
-
+DOM Variables
+GAME RULES
+guess = winningNum = winner , display congrats message, color green, disable input
+guess != winning num, reduce guessesLeft and give another try again. display guesses left
 */
 
-const guessInput = document.getElementById('guess-input'),
-    guessBtn = document.getElementById('guess-btn'),
+const game = document.getElementById('game'),
     minNum = document.querySelector('.min-num'),
     maxNum = document.querySelector('.max-num'),
-    message = document.querySelector('.message');
-
-let guessesLeft = 2,
-    min = 1,
-    max = 10,
-    randomNum = Math.floor(Math.random() * (max - min + 1)) + min;
-
-
+    guessInput = document.getElementById('guess-input'),
+    guessBtn = document.getElementById('guess-btn'),
+    message = document.querySelector('.message'),
+    winningNum = 8;
+let min = 1,
+    max = 15;
+// set UI values
 minNum.textContent = min;
 maxNum.textContent = max;
+let guessLeft = 2;
 
 // event listener
-guessBtn.addEventListener('click', () => {
-    const guess = parseInt(guessInput.value);
-    if (isNaN(guess) || guess < minNum || guess > maxNum) {
-        // unqualified number;
-        setMessage(`Enter a number between ${min} and ${max}`, `red`);
-    } // correct number, you won
-    else if (guess === randomNum) {
-        gameOver(true, `${guess} is correct answer, You win!`);
-    } else {
-        // wrong guesss , reduce guessesleft 
-        guessesLeft -= 1;
-        if (guessesLeft <= 0) {
-            // Game Over
-            gameOver(false, `Game over, the correct answer was ${randomNum}`);
-        } else {
-            // wrong answer - continue;
-            setMessage(`${guess} is not correct, you have ${guessesLeft} guesses left`, `red`);
+guessBtn.addEventListener('click', function () {
+    let guessValue = parseInt(guessInput.value);
+    // check if input field is empty
+    if (isNaN(guessValue) || guessValue === "") {
+        alert(`Enter a guess`);
+    };
+    //validate input field within range
+    if (guessValue < min || guessValue > max) {
+        setMessage(`Enter a value between ${min} and ${max}`, `red`);
+    } else if (guessValue !== winningNum) {
+        // wrong guess
+        // 1. reduce guesses left
+        guessLeft -= 1;
+        setMessage(`Wrong answer, try again, you have ${guessLeft} guesses left`, `red`);
+        if (guessLeft === 0) {
+            // wrong guess - you lost
+            setMessage(`Wrong answer, the correct answer is ${winningNum}`);
+            guessInput.disabled = true;
         }
+    } else {
+        console.log('winner')
     }
-    // e.preventDefault();
+
 });
 
-function gameOver(won, msg) {
-    let color;
-    won === true ? color = 'green' : color = 'red';
-    guessInput.disabled = true;
-    guessInput.style.borderColor = color;
-    message.style.color = color;
-    // call set message and pass in the message
-    setMessage(msg);
-    // play again functionality
-    guessBtn.value = 'Play again';
-    guessBtn.className += 'play-again';
-}
-
-const setMessage = function (msg, color) {
-    message.textContent = msg;
+function setMessage(msg, color) {
+    message.innerText = msg;
     message.style.color = color;
 }
-
-// Play again event listener
-document.getElementById('game').addEventListener('mousedown', (e) => {
-    if (e.target.className === 'play-again') {
-        window.location.reload();
-    }
-});
