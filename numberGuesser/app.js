@@ -19,6 +19,12 @@ minNum.textContent = min;
 maxNum.textContent = max;
 let guessLeft = 2;
 
+// event listener 2
+game.addEventListener('mousedown', function (e) {
+    if (e.target.classList.contains('play-again')) {
+        window.location.reload();
+    }
+});
 // event listener
 guessBtn.addEventListener('click', function () {
     let guessValue = parseInt(guessInput.value);
@@ -36,14 +42,24 @@ guessBtn.addEventListener('click', function () {
         setMessage(`Wrong answer, try again, you have ${guessLeft} guesses left`, `red`);
         if (guessLeft === 0) {
             // wrong guess - you lost
-            setMessage(`Wrong answer, the correct answer is ${winningNum}`);
-            guessInput.disabled = true;
+            gameWon(false, `Wrong answer, the correct answer is ${winningNum}`);
         }
     } else {
-        console.log('winner')
+        gameWon(true, `Correct answer, you win!!`);
     }
 
 });
+
+function gameWon(won, msg) {
+    let color;
+    won === true ? color = `green` : color = `red`;
+    message.style.color = color;
+    guessInput.style.borderColor = color;
+    guessInput.disabled = true;
+    guessBtn.value = 'Play Again';
+    guessBtn.className = 'play-again';
+    setMessage(msg, color);
+}
 
 function setMessage(msg, color) {
     message.innerText = msg;
