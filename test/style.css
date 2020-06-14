@@ -1,0 +1,10 @@
+p {
+    font-size: 44px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+#container {
+    width: 600px;
+    height: 600px;
+    overflow: hidden;
+}

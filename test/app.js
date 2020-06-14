@@ -15,3 +15,12 @@ console.log(div.classList.contains('myclass'))
 console.log(document.querySelector('.myclass'))
 console.log(div)
 div.replaceWith(div2);
+
+
+document.querySelector('p').addEventListener('click', () => {
+    alert('Ho')
+})
+window.addEventListener('scroll', () => {
+    console.log(window.scrollY)
+    console.log(window.scrollX)
+})
