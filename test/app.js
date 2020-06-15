@@ -16,11 +16,29 @@ console.log(document.querySelector('.myclass'))
 console.log(div)
 div.replaceWith(div2);
 
-
+/*
 document.querySelector('p').addEventListener('click', () => {
     alert('Ho')
 })
 window.addEventListener('scroll', () => {
     console.log(window.scrollY)
     console.log(window.scrollX)
-})
+});
+
+*/
+
+/*API FETCH CALLS */
+
+(async () => {
+    try {
+        const response = await fetch('file.json'); // url
+        // const data = await response.json(); //response json object being parsed and awaited
+
+        console.log(await response.headers)
+        // console.log(data.header);
+        // console.log(data[0].name);
+    } catch (error) {
+        throw (`Something went wrong`);
+    }
+
+})()
