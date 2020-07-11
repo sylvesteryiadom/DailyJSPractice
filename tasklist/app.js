@@ -31,7 +31,10 @@ function addTask(e) {
     link.innerHTML = `<i class="fa fa-remove"></i>`;
     // append link to li
     li.appendChild(link);
-    console.log(li);
+    // add link to list items (DOM)
+    taskList.appendChild(li);
+    // clear input field afte adding item
+    taskInput.value = '';
 
     e.preventDefault();
 };
