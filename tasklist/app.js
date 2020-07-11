@@ -12,6 +12,8 @@ startallEventListeners();
 function startallEventListeners() {
     // add task event
     form.addEventListener('submit', addTaskItem);
+    // delete task item
+    taskList.addEventListener('click', deleteListItem);
 }
 
 // function for adding task item
@@ -32,11 +34,20 @@ function addTaskItem(e) {
         linkEl.innerHTML = `<i class="fa fa-remove"></i>`;
         // append link element to list item/el
         listEl.appendChild(linkEl);
-        // add list item to the DOM
+        // add list item to the DOM , we append so additional task are added below it
         taskList.appendChild(listEl);
         // clear task input
         taskInput.value = '';
     }
     //prevent form default behaviour;
     e.preventDefault();
+}
+
+// delete task function
+function deleteListItem(e) {
+    // check if target contains what we want to delete
+    if (e.target.parentElement.classList.contains('delete-item')) {
+        // move up in the DOM to delete entire li element
+        e.target.parentElement.parentElement.remove();
+    }
 }
