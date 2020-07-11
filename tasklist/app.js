@@ -3,7 +3,7 @@ const form = document.querySelector('#task-form'),
     taskInput = document.querySelector('#task'),
     filter = document.querySelector('#filter'),
     taskList = document.querySelector('.collection'),
-    cleatButton = document.querySelector('.clear-tasks');
+    clearButton = document.querySelector('.clear-tasks');
 
 // initialize event listeners
 startallEventListeners();
@@ -14,6 +14,8 @@ function startallEventListeners() {
     form.addEventListener('submit', addTaskItem);
     // delete task item
     taskList.addEventListener('click', deleteListItem);
+    // clear all task
+    clearButton.addEventListener('click', clearTasks);
 }
 
 // function for adding task item
@@ -49,5 +51,14 @@ function deleteListItem(e) {
     if (e.target.parentElement.classList.contains('delete-item')) {
         // move up in the DOM to delete entire li element
         e.target.parentElement.parentElement.remove();
+    }
+}
+
+// clear all task
+function clearTasks() {
+    // taskList.innerHTML = '';
+    // https: //jsperf.com/innerhtml-vs-removechild/47
+    while (taskList.firstChild) {
+        taskList.removeChild(taskList.firstChild);
     }
 }
